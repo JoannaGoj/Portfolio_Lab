@@ -3,6 +3,7 @@ from django.views import View
 
 from donation.models import Institution, Donation
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 
 
 # Create your views here.
@@ -28,19 +29,29 @@ class Login(View):
     def get(self, request):
         return render(request, 'login.html')
 
+    def post(self, request):
+        username = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return render(request, 'index.html')
+        else:
+            return render(request, 'login.html', {'message': 'Niepoprawne dane logowania'})
 
 class Register(View):
     def get(self, request):
         return render(request, 'register.html')
 
     def post(self, request):
-        name = request.POST['name']
-        surname = request.POST['surname']
-        username = name+surname
-        password = request.POST['password']
-        re_password = request.POST['password2']
+        first_name = request.POST.get('first_name', False)
+        surname = request.POST.get('surname', False)
+        email = request.POST['email']
+        password = request.POST.get('password', False)
+        re_password = request.POST.get('password2', False)
         if password == re_password:
-            User.objects.create(username=username, password=password)
+            User.objects.create_user(username=email, email=email, password=password, last_name=surname,
+                                     first_name=first_name)
             return render(request, 'login.html')
         else:
-            return render(request, 'add_user.html', {'username': username, 'message': 'hasła nie sa te same'})
+            return render(request, 'register.html', {'message': 'hasła nie są takie same'})
