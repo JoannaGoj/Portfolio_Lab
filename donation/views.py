@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 
 from donation.models import Institution, Donation
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
@@ -22,7 +23,8 @@ class LandingPage(View):
 
 class AddDonation(View):
     def get(self, request):
-        return render(request, 'form.html')
+        user = request.user
+        return render(request, 'form.html', {'user': user})
 
 
 class Login(View):
@@ -37,7 +39,8 @@ class Login(View):
             login(request, user)
             return render(request, 'index.html')
         else:
-            return render(request, 'login.html', {'message': 'Niepoprawne dane logowania'})
+            return render(request, 'register.html')
+
 
 class Register(View):
     def get(self, request):
@@ -55,3 +58,9 @@ class Register(View):
             return render(request, 'login.html')
         else:
             return render(request, 'register.html', {'message': 'hasła nie są takie same'})
+
+
+class Logout(View):
+    def get(self, request):
+        logout(request)
+        return redirect('landing_page')
