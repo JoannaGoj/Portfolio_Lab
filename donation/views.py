@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 
-from donation.models import Institution, Donation
+from donation.models import Institution, Donation, Category
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -21,10 +21,12 @@ class LandingPage(View):
                        'donations_count': donations_count})
 
 
-class AddDonation(View):
+class AddDonation(LoginRequiredMixin, View):
     def get(self, request):
         user = request.user
-        return render(request, 'form.html', {'user': user})
+        categories = Category.objects.all()
+        institution = Institution.objects.all()
+        return render(request, 'form.html', {'user': user, 'categories': categories, 'institution': institution})
 
 
 class Login(View):
