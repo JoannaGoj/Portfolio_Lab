@@ -189,14 +189,17 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     /**
-     * All events that are happening in form
+     * All events that are happening in form !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      */
     events() {
       // Next step
       this.$next.forEach(btn => {
         btn.addEventListener("click", e => {
+          console.log('lxd');
           e.preventDefault();
+          console.log('lol');
           this.currentStep++;
+          console.log(this.currentStep);
           this.updateForm();
         });
       });

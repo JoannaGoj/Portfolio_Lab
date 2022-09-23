@@ -16,12 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from donation import views
+from django.urls import re_path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.LandingPage.as_view(), name='landing_page'),
     path('register/', views.Register.as_view(), name='register'),
     path('login/', views.Login.as_view(), name='login'),
-    path('add_donation/', views.AddDonation.as_view(), name='add_donation'),
+    path('add_donation/', views.AddDonation1.as_view(), name='add_donation'),
+    path('add_donation2/', views.AddDonation2.as_view(), name='add_donation2'),
+    path('add_donation4/', views.AddDonation4.as_view(), name='add_donation4'),
+    # path('add_donation5/', views.AddDonation5.as_view(), name='add_donation5'),
+    # path('add_donation6/', views.AddDonation6.as_view(), name='add_donation6'),
     path('logout/', views.Logout.as_view(), name='logout')
 ]

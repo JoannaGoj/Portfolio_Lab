@@ -24,14 +24,15 @@ class Institution(models.Model):
 
 
 class Donation(models.Model):
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(null=True)
     categories = models.ManyToManyField('Category')
-    institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
-    address = models.CharField(max_length=180)
-    phone_number = models.IntegerField()
-    city = models.CharField(max_length=64)
-    zip_code = models.IntegerField()
-    pick_up_date = models.DateField()
-    pick_up_time = models.TimeField()
-    pick_up_comment = models.CharField(max_length=100)
+    institution = models.ForeignKey('Institution', on_delete=models.CASCADE, null=True)
+    address = models.CharField(max_length=180, null=True)
+    phone_number = models.IntegerField(null=True)
+    city = models.CharField(max_length=64, null=True)
+    zip_code = models.IntegerField(null=True)
+    pick_up_date = models.DateField(null=True)
+    pick_up_time = models.TimeField(null=True)
+    pick_up_comment = models.CharField(max_length=100, null=True)
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+
